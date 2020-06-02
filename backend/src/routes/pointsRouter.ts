@@ -6,6 +6,7 @@ const pointsRouter = Router();
 const pointsController = new PointsController();
 
 pointsRouter.post('/', pointsController.create);
+pointsRouter.get('/', pointsController.index);
 pointsRouter.get('/:id', pointsController.show);
 
 export default pointsRouter;
