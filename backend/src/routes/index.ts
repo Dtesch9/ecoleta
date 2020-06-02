@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
-import usersRouter from './usersRouter';
+import itemsRouter from './itemsRouter';
+import pointsRouter from './pointsRouter';
 
 const routes = Router();
 
-routes.use('/users', usersRouter);
+routes.use('/items', itemsRouter);
+routes.use('/points', pointsRouter);
 
 export default routes;
