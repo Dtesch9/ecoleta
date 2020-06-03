@@ -1,7 +1,10 @@
 import React from 'react';
+import './App.css';
+
+import Routes from './routes';
 
 const App: React.FC = () => {
-  return <h1>ReactJS Stonks</h1>;
+  return <Routes />;
 };
 
 export default App;
