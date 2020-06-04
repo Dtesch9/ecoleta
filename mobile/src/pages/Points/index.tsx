@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
 import * as Location from 'expo-location';
@@ -35,6 +35,11 @@ interface Point {
   }[];
 }
 
+interface RouteParams {
+  uf: string;
+  city: string;
+}
+
 const Points: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [points, setPoints] = useState<Point[]>([]);
@@ -46,6 +51,9 @@ const Points: React.FC = () => {
   ]);
 
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const { city, uf } = route.params as RouteParams;
 
   useEffect(() => {
     async function loadPosition(): Promise<void> {
@@ -80,15 +88,15 @@ const Points: React.FC = () => {
     api
       .get('points', {
         params: {
-          city: 'Rio de Janeiro',
-          uf: 'RJ',
-          items: [6, 5],
+          city,
+          uf,
+          items: selectedItems,
         },
       })
       .then(response => {
         setPoints(response.data);
       });
-  }, []);
+  }, [city, uf, selectedItems]);
 
   const handleNavigateBack = useCallback(() => {
     navigation.goBack();
