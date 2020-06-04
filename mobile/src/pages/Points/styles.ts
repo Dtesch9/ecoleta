@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
 
   mapMarker: {
     width: 90,
-    height: 70,
+    height: 84,
     alignItems: 'center',
   },
 
