@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 32,
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
 
   mapMarker: {
     width: 90,
-    height: 80, 
+    height: 70,
+    alignItems: 'center',
   },
 
   mapMarkerContainer: {
@@ -45,7 +47,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderRadius: 8,
     overflow: 'hidden',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+
+  triangle: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomWidth: 12,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#34CB79',
+    transform: [{ rotate: '180deg' }],
   },
 
   mapMarkerImage: {
