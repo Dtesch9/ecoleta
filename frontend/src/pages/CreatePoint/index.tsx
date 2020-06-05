@@ -14,6 +14,8 @@ import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
+import Dropzone from '../../components/Dropzone';
+
 import './styles.css';
 
 import logo from '../../assets/logo.svg';
@@ -38,6 +40,10 @@ interface FormData {
   whatsapp: string;
 }
 
+interface SubmitData {
+  [key: string]: any;
+}
+
 const CreatePoint: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
@@ -46,6 +52,7 @@ const CreatePoint: React.FC = () => {
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   const [formData, setFormData] = useState<FormData>({} as FormData);
 
@@ -162,16 +169,26 @@ const CreatePoint: React.FC = () => {
       const [latitude, longitude] = selectedPosition;
       const itemsType = selectedItems;
 
-      const data = {
+      const submitData = {
         name,
         email,
         whatsapp,
         uf,
         city,
-        latitude,
-        longitude,
-        items: itemsType,
-      };
+        latitude: String(latitude),
+        longitude: String(longitude),
+        items: itemsType.join(','),
+      } as SubmitData;
+
+      const data = new FormData();
+
+      Object.keys(submitData).map(key =>
+        data.append(`${key}`, `${submitData[key]}`),
+      );
+
+      if (selectedFile) {
+        data.append('image', selectedFile);
+      }
 
       await api.post('points', data);
 
@@ -186,6 +203,7 @@ const CreatePoint: React.FC = () => {
       selectedCity,
       selectedPosition,
       selectedItems,
+      selectedFile,
       history,
     ],
   );
@@ -204,6 +222,8 @@ const CreatePoint: React.FC = () => {
         <h1>
           Cadastro do <br /> ponto de coleta
         </h1>
+
+        <Dropzone onFileUpload={setSelectedFile} />
 
         <fieldset>
           <legend>
