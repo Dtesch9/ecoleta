@@ -1,4 +1,6 @@
 node_modules
 build
 .env
-src/database/database.sqlite
+uploads/*
+!uploads/.gitkeep
+*.sqlite

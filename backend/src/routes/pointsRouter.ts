@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { celebrate, Joi, Segments } from 'celebrate';
 
 import multer from 'multer';
 import multerConfig from '../config/multer';
@@ -10,8 +11,30 @@ const upload = multer(multerConfig);
 
 const pointsController = new PointsController();
 
-pointsRouter.post('/', upload.single('image'), pointsController.create);
 pointsRouter.get('/', pointsController.index);
 pointsRouter.get('/:id', pointsController.show);
+
+pointsRouter.post(
+  '/',
+  upload.single('image'),
+  celebrate(
+    {
+      [Segments.BODY]: Joi.object().keys({
+        name: Joi.string().required(),
+        email: Joi.string().required().email(),
+        whatsapp: Joi.string().required(),
+        latitude: Joi.number().required(),
+        longitude: Joi.number().required(),
+        city: Joi.string().required(),
+        uf: Joi.string().required().max(2).min(2),
+        items: Joi.string().required(),
+      }),
+    },
+    {
+      abortEarly: false,
+    },
+  ),
+  pointsController.create,
+);
 
 export default pointsRouter;
